@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>icons/double_lock.png</file>
+        <file>icons/lock.png</file>
+        <file>icons/unlock.png</file>
+    </qresource>
+</RCC>
