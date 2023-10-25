@@ -3,7 +3,7 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 ## 简介
 该项目是基于参考教科书《密码编码学于网络安全—原理与实践(第8版)》附录D简化AES的算法实现。
 具体S-AES加密解密原理详见附录
-开发平台与版本：Qt 5.13/Qt Creator 4.10.1
+开发平台与版本：Qt 5.13.2/Qt Creator 4.10.1
 
 **具体S-AES加密解密原理详见附录**
 ## 实现功能
