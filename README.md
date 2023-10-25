@@ -8,9 +8,16 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 **具体S-AES加密解密原理详见附录**
 ## 实现功能
 ### 基本GUI界面和加解密测试
-- 编写和调试程序，提供GUI界面支持用户交互
+- 程序提供GUI界面支持用户交互,支持输入16位数据和16位密钥，并输出16位密文
+  初始界面/加密界面  
+  ![(M )X~3WB0GE~@3DNV2$U(7](https://github.com/dori0512/S-AES-by-qt/assets/130364519/f049f4f7-977b-4d03-b313-129e16336449)  
+  解密界面  
+  ![T8H%BAOGK@J$5`U}%S@@)_J](https://github.com/dori0512/S-AES-by-qt/assets/130364519/a56f25cf-01df-480a-8da1-15c2d7f241b7)  
+  加密功能示例：  
+  正常输入16bit数据和16bit密文，点击加密按钮：  
+  ![P_I{G(CCT33E@NWF2 TG8MB](https://github.com/dori0512/S-AES-by-qt/assets/130364519/6c7d7dfd-6216-4c02-ac09-c78d5af0bfc9)
   
-- 支持输入16位数据和16位密钥，并输出16位密文
+
 
 ### 交叉测试
 - 需要使用相同的算法流程和转换单元（如替换盒、列混淆矩阵等）确保算法和程序在异构的系统或平台上都可以正常运行
