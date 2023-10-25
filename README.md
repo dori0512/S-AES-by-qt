@@ -1,4 +1,4 @@
-![A5CHLV ZSJU{AJL )AYSVFU](https://github.com/dori0512/S-AES-by-qt/assets/130364519/b3f7d08e-da80-4101-8cdc-f33ba0b5460d)# S-AES-by-qt
+# S-AES-by-qt
 Simple AES encryption and decryption with a concise front-end interface is implemented in Qt/C++, providing a simplified yet professional solution.
 ## 简介
 该项目是基于参考教科书《密码编码学于网络安全—原理与实践(第8版)》附录D简化AES的算法实现，部分关键代码附于本文档最后一节。
