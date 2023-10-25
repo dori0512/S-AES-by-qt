@@ -9,21 +9,101 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 ## 实现功能
 ### 基本GUI界面和加解密测试
 - 程序提供GUI界面支持用户交互,支持输入16位数据和16位密钥，并输出16位密文
-  初始界面/加密界面  
-  ![(M )X~3WB0GE~@3DNV2$U(7](https://github.com/dori0512/S-AES-by-qt/assets/130364519/f049f4f7-977b-4d03-b313-129e16336449)  
-  解密界面  
-  ![T8H%BAOGK@J$5`U}%S@@)_J](https://github.com/dori0512/S-AES-by-qt/assets/130364519/a56f25cf-01df-480a-8da1-15c2d7f241b7)  
-  加密功能示例：  
-  正常输入16bit数据和16bit密文，点击加密按钮：  
-  ![P_I{G(CCT33E@NWF2 TG8MB](https://github.com/dori0512/S-AES-by-qt/assets/130364519/6c7d7dfd-6216-4c02-ac09-c78d5af0bfc9)
+  **初始界面/加密界面**
   
+  ![(M )X~3WB0GE~@3DNV2$U(7](https://github.com/dori0512/S-AES-by-qt/assets/130364519/f049f4f7-977b-4d03-b313-129e16336449)  
+  **解密界面**
+  
+  ![T8H%BAOGK@J$5`U}%S@@)_J](https://github.com/dori0512/S-AES-by-qt/assets/130364519/a56f25cf-01df-480a-8da1-15c2d7f241b7)  
+  **加密功能示例：  
+  正常输入16bit数据和16bit密文，点击加密按钮**：
+   
+  ![P_I{G(CCT33E@NWF2 TG8MB](https://github.com/dori0512/S-AES-by-qt/assets/130364519/6c7d7dfd-6216-4c02-ac09-c78d5af0bfc9)  
+  **解密功能示例：**  
+  **使用加密的密钥和得到的密文能解密出原数据：**
+  
+  ![$V`__R8R}6QJ2SX7%OH67LN](https://github.com/dori0512/S-AES-by-qt/assets/130364519/7e60d7f7-514e-4353-834b-51d1d8d51b2d)  
+  **错误输入示例：**
+
+  ![2~{1)VYG)S 1%BMP7HD`6DP](https://github.com/dori0512/S-AES-by-qt/assets/130364519/85ec1438-ba04-4f79-8d10-5400e5afd5ce)
+  
+  更多错误输入的提示信息详见以下部分相关代码：
+  
+  void EncryptWidget::encrypt()
+{
+    QString plainText = m_plainTextEdit->toPlainText();
+    QString key = m_keyEdit->text();
+
+    if (plainText.isEmpty() || key.isEmpty()) { // 检查输入是否为空
+        QMessageBox::information(this, "提示", "加密失败：请正确输入明文和密钥");
+        return;
+    }
+    if (key.length() != 16) { // 检查是否为16bit的密钥
+        QMessageBox::information(this, "提示", "加密失败：请输入16bit的密钥");
+        return;
+    }
+    // 检查输入是否为ASCII编码字符串或二进制字符串
+    bool isAscii = true;
+    bool isBinary = true;
+    for (int i = 0; i < plainText.length(); i++) {
+        if (plainText[i].unicode() > 255) {
+            isAscii = false;
+        }
+        if (plainText[i] != '0' && plainText[i] != '1') {
+            isBinary = false;
+        }
+    }
+    for (int i = 0; i < key.length(); i++) {
+        if (key[i] != '0' && key[i] != '1' && key.length() != 16) {
+            QMessageBox::information(this, "提示", "加密失败：请输入16bit的二进制密钥");
+            return;
+        }
+    }
+
+    if (!isAscii && !isBinary) {
+        QMessageBox::information(this, "提示", "加密失败：明文需要是二进制或能转化为ASCII的字符串");
+        return;
+    }
+
+    if (isAscii) {
+        if (plainText.length() % 2 != 0) {
+            QMessageBox::information(this, "提示", "加密失败：ASCII编码字符串必须为2字节的倍数");
+            return;
+        }
+    }
+
+    QString encryptedText;
+    if (isBinary && plainText.length() == 16) {
+        QString encryptedBinaryText = m_aes.encrypt(plainText, key);
+        encryptedText = encryptedBinaryText;
+    }
+    else if(isBinary && plainText.length() != 16){
+        QMessageBox::information(this, "提示", "加密失败：明文需要是16bit二进制数或能转化为ASCII的字符串");
+        return;
+    }
+    else {
+
+        for (int i = 0; i < plainText.length(); i+=2) {
+            // 将ASCII编码字符串转换为二进制字符串进行加密
+            QString binaryChar = QString("%1").arg(plainText[i].unicode(), 8, 2, QChar('0'))+QString("%1").arg(plainText[i+1].unicode(), 8, 2, QChar('0'));
+            QString encryptedBinaryText = m_aes.encrypt(binaryChar, key);
+
+            // 将加密后的二进制字符串转换为ASCII编码字符串输出
+            QChar asciiCharleft(encryptedBinaryText.mid(0,8).toInt(nullptr, 2));
+            encryptedText += asciiCharleft;
+            QChar asciiCharright(encryptedBinaryText.mid(8,8).toInt(nullptr, 2));
+            encryptedText += asciiCharright;
+        }
+    }
+
+    m_cipherLabel->setText(encryptedText);
+    m_cipherLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+}
 
 
 ### 交叉测试
-- 需要使用相同的算法流程和转换单元（如替换盒、列混淆矩阵等）确保算法和程序在异构的系统或平台上都可以正常运行
-- 设有A和B两组位同学，选择相同的密钥K
-- A、B组同学编写的程序对明文P进行加密后得到相同的密文C
-- B组同学接收到A组程序加密的密文C后，使用B组程序进行解密能得到与A相同的明文P
+- 该项目能确保算法和程序在异构的系统或平台上都可以正常运行
+- 设有A和B两组位同学，选择相同的密钥K，A、B组同学编写的程序对明文P进行加密后得到相同的密文C，B组同学接收到A组程序加密的密文C后，使用B组程序进行解密能得到与A相同的明文P
 
 ### 扩展功能
 - 支持输入ASCII编码字符串作为数据输入（分组为2字节）
