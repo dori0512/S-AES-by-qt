@@ -127,6 +127,7 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 ### 扩展功能
 - 该项目支持输入ASCII编码字符串作为数据输入（分组为2字节的倍数）
 - 对应地，输出也可以是ASCII字符串（可能是乱码）
+
 验证:
 
 ![FOFEO8Y)WAM)M K8R~ 1R_4](https://github.com/dori0512/S-AES-by-qt/assets/130364519/9f7c4908-396a-47be-b5df-582ced5a059a)
@@ -138,6 +139,7 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 #### 1 双重加密
 - 将S-AES算法通过双重加密进行扩展
 - 分组长度仍为16位，而密钥长度变为32位
+
 **输入为二进制数时：**
 
 ![KKZ(}D~M({I53~M4X{1V9KE](https://github.com/dori0512/S-AES-by-qt/assets/130364519/436d08dc-7768-4182-826a-b470e41a9b42)
@@ -154,7 +156,7 @@ Simple AES encryption and decryption with a concise front-end interface is imple
 
 ![C96_Y7FVK1BW 4Y$E ~MN%M](https://github.com/dori0512/S-AES-by-qt/assets/130364519/6d9f7384-f86d-4d06-9dc9-366ffa1e5d0e)
 
-注L:此时为简化界面，双重加密解密功能共用一个界面Widget窗口
+注:此时为简化界面，双重加密解密功能共用一个界面Widget窗口
 #### 2 中间相遇攻击
 - 假设找到了使用相同密钥的明文、密文对
 - 尝试使用中间相遇攻击的方法找到正确的密钥Key (K1+K2)
